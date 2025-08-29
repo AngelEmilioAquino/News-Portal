@@ -44,3 +44,4 @@ export const useNewsStore = defineStore("news", {
   },
   persist: true,
 });
+
