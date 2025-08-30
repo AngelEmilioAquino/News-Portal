@@ -16,6 +16,9 @@ interface State {
   articles: Article[];
   loading: boolean;
   error: string | null;
+  page: number;
+  pageSize: number;
+  totalResults: number;
 }
 
 export const useNewsStore = defineStore("news", {
@@ -23,25 +26,31 @@ export const useNewsStore = defineStore("news", {
     articles: [] as Article[],       
     loading: false,
     error: null as string | null,
+    page: 1,
+    pageSize: 9,
+    totalResults: 0,
   }),
   actions: {
-    async fetchNews(query?: string) {
-      this.loading = true;
-      this.error = null;
-      try {
-        const url = query
-          ? `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=es&apiKey=${import.meta.env.VITE_NEWS_API_KEY}`
-          : `https://newsapi.org/v2/top-headlines?country=us&apiKey=${import.meta.env.VITE_NEWS_API_KEY}`;
-        const res = await axios.get(url);
-        this.articles = res.data.articles; 
-      } catch {
-        this.error = "Error al obtener noticias";
-        this.articles = [];
-      } finally {
-        this.loading = false;
-      }
-    },
+    async fetchNews(query?: string, page: number = 1) {
+  this.loading = true;
+  this.error = null;
+  this.page = page; // Actualiza la página actual
+  try {
+    const url = `https://newsapi.org/v2/everything?${
+      query ? `q=${query}&` : "q=general&"
+    }page=${this.page}&pageSize=${this.pageSize}&apiKey=${import.meta.env.VITE_NEWS_API_KEY}`;
+    const res = await axios.get(url);
+    this.totalResults = res.data.totalResults;
+    this.articles = res.data.articles;
+  } catch (err) {
+    this.error = "Error al obtener noticias";
+    this.articles = [];
+    this.totalResults = 0;
+  } finally {
+    this.loading = false;
+  }
+}
   },
-  persist: true,
+ persist:true,
 });
 
