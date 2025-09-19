@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Article } from "../store/news";
+import { ArrowRight } from "lucide-vue-next";
 
 defineProps<{ article: Article; index: number }>();
 </script>
@@ -23,7 +24,7 @@ defineProps<{ article: Article; index: number }>();
       :to="{ name: 'ArticleDetail', params: { id: index } }"
       class="text-blue-600 font-medium hover:underline"
     >
-      Leer más →
+      Leer más <ArrowRight class="inline-block size-6"/>
     </router-link>
   </div>
 

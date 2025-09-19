@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useNewsStore } from "../store/news";
+import { ArrowLeft } from "lucide-vue-next";
 
 const route = useRoute();
 const newsStore = useNewsStore();
@@ -14,7 +15,7 @@ const article = computed(() => {
 
 <template>
 <div class="p-6">
-    <router-link to="/" class="text-blue-600 hover:underline">← Volver</router-link>
+    <router-link to="/" class="inline-block text-blue-600 hover:underline"> <ArrowLeft/> Volver</router-link>
 
     <div v-if="article" class="mt-4">
       <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
