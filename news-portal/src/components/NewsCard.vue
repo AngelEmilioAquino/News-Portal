@@ -7,7 +7,12 @@ defineProps<{ article: Article; index: number }>();
 <template>
   <div class="bg-white p-4 my-4 rounded-lg shadow-lg transition-all duration-500">
     <img v-if="article.urlToImage"
-    :src="article.urlToImage" 
+    :src="article.urlToImage || 'https://ui.shadcn.com/placeholder.svg'" 
+    alt="News Image"
+    class="w-full h-64 object-cover rounded-lg mb-4"
+    >
+    <img v-else="article.urlToImage"
+    :src="article.urlToImage || 'https://ui.shadcn.com/placeholder.svg'" 
     alt="News Image"
     class="w-full h-64 object-cover rounded-lg mb-4"
     >
